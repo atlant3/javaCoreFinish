@@ -1,9 +1,9 @@
 public final class Time implements Comparable<Time> {
     private int min;
     private int hour;
+
     public Time(int hour, int min) {
-        checkTime(hour,min);
-        this.min=min;
+        checkTime(hour, min);
     }
 
     public int getMin() {
@@ -27,16 +27,33 @@ public final class Time implements Comparable<Time> {
         int nMin = this.min + time.min;
         return new Time(nHour, nMin);
     }
+
     public void checkTime(int checkHour, int checkMin) {
-        if(checkHour>=0) {
-            if (checkHour<=24) {
-                this.hour=checkHour;
+        if (checkHour >= 0) {
+            if (checkHour <= 24) {
+                this.hour = checkHour;
+            } else {
+                System.out.println("Error time (hour) - Please retry");
+                System.exit(0);
             }
-        }
-        else {
-            System.out.println("Error clock - Please retry");
+
+        } else {
+            System.out.println("Error time (hour) - Please retry");
             System.exit(0);
         }
+        if (checkMin >= 0) {
+            if (checkMin <= 60) {
+                this.min = checkMin;
+            } else {
+                System.out.println("Error time (min) - Please retry");
+                System.exit(0);
+            }
+
+        } else {
+            System.out.println("Error time (min) - Please retry");
+            System.exit(0);
+        }
+
 
 
     }
