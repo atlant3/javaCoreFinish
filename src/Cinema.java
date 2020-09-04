@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -53,9 +54,14 @@ public class Cinema {
     public void addSeance(Seance seance, String dayWeek) {
         boolean checkOpen = checkOpen(seance.getStartTime(), seance.getEndTime());
         if (checkOpen) {
-            Schedule schedule = new Schedule();
-            schedule.addSeance(seance);
-            schedules.put(Days.valueOf(dayWeek.toUpperCase()), schedule);
+            for (Days day : Days.values()){
+                if (day.toString().equalsIgnoreCase(dayWeek)) {
+                    Schedule schedule = new Schedule();
+                    schedule.addSeance(seance);
+                    schedules.put(day, schedule);
+                }
+            }
+
         } else System.out.println("Close!!!");
 
     }
@@ -82,8 +88,12 @@ public class Cinema {
     }
 
     public void showAllSeasons() {
-        System.out.println(schedules.size());
-        System.out.println(schedules.toString());
+        for (Map.Entry<Days, Schedule> entry : schedules.entrySet()) {
+            Days key = entry.getKey();
+            Schedule value = entry.getValue();
+            System.out.printf("%s : %s\n", key.toString(), value.toString());
+        }
+
     }
 
     public void sellTicket(Ticket ticket) {
@@ -104,16 +114,6 @@ public class Cinema {
             return false;
         } else
             return true;
-    }
-
-    public boolean checkHour(int hour, int min) {
-        if (hour < 25 && min > -1) {
-            return true;
-        }
-        if (min > 61 && min > -1) {
-            return true;
-        }
-        return false;
     }
 
     @Override

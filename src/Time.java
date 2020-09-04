@@ -1,30 +1,20 @@
-public class Time implements Comparable<Time> {
+public final class Time implements Comparable<Time> {
     private int min;
     private int hour;
-
-    public Time() {
-    }
-
     public Time(int hour, int min) {
-        this.min = min;
-        this.hour = hour;
+        checkTime(hour,min);
+        this.min=min;
     }
 
     public int getMin() {
         return min;
     }
 
-    public void setMin(int min) {
-        this.min = min;
-    }
 
     public int getHour() {
         return hour;
     }
 
-    public void setHour(int hour) {
-        this.hour = hour;
-    }
 
     @Override
     public String toString() {
@@ -37,11 +27,18 @@ public class Time implements Comparable<Time> {
         int nMin = this.min + time.min;
         return new Time(nHour, nMin);
     }
-    public boolean checkTime(int checkHour, int checkMin) {
-        if(checkHour<25 && checkMin<61) {
-            return true;
+    public void checkTime(int checkHour, int checkMin) {
+        if(checkHour>=0) {
+            if (checkHour<=24) {
+                this.hour=checkHour;
+            }
         }
-        else return false;
+        else {
+            System.out.println("Error clock - Please retry");
+            System.exit(0);
+        }
+
+
     }
 
     @Override
