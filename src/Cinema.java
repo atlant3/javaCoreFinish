@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @version 1.0
@@ -56,9 +54,17 @@ public class Cinema {
         if (checkOpen) {
             for (Days day : Days.values()){
                 if (day.toString().equalsIgnoreCase(dayWeek)) {
-                    Schedule schedule = new Schedule();
-                    schedule.addSeance(seance);
-                    schedules.put(day, schedule);
+                    Schedule tempList = null;
+                    if (schedules.containsKey(day)) {
+                        tempList = schedules.get(day);
+                        if(tempList == null)
+                            tempList = new Schedule();
+                        tempList.addSeance(seance);
+                    } else {
+                        tempList = new Schedule();
+                        tempList.addSeance(seance);
+                    }
+                    schedules.put(day, tempList);
                 }
             }
 
@@ -88,13 +94,26 @@ public class Cinema {
     }
 
     public void showAllSeasons() {
-        for (Map.Entry<Days, Schedule> entry : schedules.entrySet()) {
-            Days key = entry.getKey();
-            Schedule value = entry.getValue();
-            System.out.printf("%s : %s\n", key.toString(), value.toString());
-        }
+        Iterator iterator = schedules.keySet().iterator();
+        Schedule tempList = null;
+        while (iterator.hasNext()) {
+            String key = iterator.next().toString();
+            System.out.println(key);
+            tempList = schedules.get(Days.valueOf(key));
+            if (tempList != null) {
+                System.out.println(tempList.toString());
+            }
+            else System.out.println("List empty");
 
+        }
     }
+//        System.out.println(schedules.toString());
+//        for (Map.Entry<Days, Schedule> entry : schedules.entrySet()) {
+//            Days key = entry.getKey();
+//            Schedule value = entry.getValue();
+//            System.out.printf("%s : %s\n", key.toString(), value.toString());
+//        }
+
 
     public void sellTicket(Ticket ticket) {
         tickets.add(ticket);
